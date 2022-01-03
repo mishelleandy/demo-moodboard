@@ -104,6 +104,9 @@ img {
     margin-left: 5px;
     transform: rotate(-45deg);
   }
+  &:hover, &:active, &:focus {
+    text-decoration: underline;
+  }
 }
 
 // Wrapper
@@ -119,6 +122,11 @@ img {
   justify-content: center;
   align-items: center;
   position: relative;
+  transform: translateY(0);
+  transition: transform 0.5s linear;
+  &.animation {
+    transform: translateY(50px);
+  }
   @include respond-above(md) {
     height: 100vh;
   }
@@ -221,7 +229,3 @@ img {
   font-family: var(--font-default);
   font-size: 0.75rem;
 }
-
-
-
-

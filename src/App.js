@@ -9,23 +9,44 @@ import "./css/App.scss";
 function App() {
   const giedreImage = useRef();
   const imariImage = useRef();
+
   useEffect(() => {
-    let giedreImagePosition = giedreImage.current.offsetTop;
-    let imariImagePosition = imariImage.current.offsetTop;
-    window.addEventListener("scroll", () => {
-      let scrollPosition = window.pageYOffset;
-      if (scrollPosition > giedreImagePosition) {
-        giedreImage.current.style.transform = `translateY(${
-          (scrollPosition - 200) * 0.1
-        }px)`;
-      }
-      if (scrollPosition > imariImagePosition) {
-        imariImage.current.style.transform = `translateY(${
-          (scrollPosition - imariImagePosition - 400) * 0.1
-        }px)`;
-      }
-    });
+    // let giedreImagePosition = giedreImage.current.offsetTop;
+    // let imariImagePosition = imariImage.current.offsetTop;
+    // window.addEventListener("scroll", () => {
+    //   let scrollPosition = window.pageYOffset;
+    //   if (scrollPosition > giedreImagePosition) {
+    //     giedreImage.current.style.transform = `translateY(${
+    //       (scrollPosition - 200) * 0.1
+    //     }px)`;
+    //   }
+    //   if (scrollPosition > imariImagePosition) {
+    //     imariImage.current.style.transform = `translateY(${
+    //       (scrollPosition - imariImagePosition - 400) * 0.1
+    //     }px)`;
+    //   }
+    // });
+
+    const options = {
+      root: null,
+      threshold: 0.2,
+      rootMargin: "0px 0px -50px 0px",
+    };
+    let observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log(entry.intersectionRatio);
+          if (entry.intersectionRatio > 0.1)
+            entry.target.classList.add("animation");
+        } else entry.target.classList.remove("animation");
+      });
+    }, options);
+
+    giedreImage.current && observer.observe(giedreImage.current);
+    imariImage.current && observer.observe(imariImage.current);
+
   }, []);
+
   return (
     <div>
       <section className="hero-wrapper">
